@@ -4,6 +4,7 @@
         "stdbool.h": "c",
         "philo.h": "c",
         "stdlib.h": "c",
-        "limits.h": "c"
+        "limits.h": "c",
+        "pthread.h": "c"
     }
 }

@@ -1,26 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   time.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mpoussie <mpoussie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/18 15:35:09 by mpoussie          #+#    #+#             */
-/*   Updated: 2023/09/27 17:15:11 by mpoussie         ###   ########.fr       */
+/*   Created: 2023/09/26 15:26:25 by mpoussie          #+#    #+#             */
+/*   Updated: 2023/09/27 17:26:10 by mpoussie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./../philo.h"
+#include "./../../philo.h"
 
-int	main(int argc, char **argv)
+long long	p_time_diff(long long i, long long time)
 {
-	t_player	*player;
-	t_info		*info;
+	return (time - i);
+}
 
-	if (argc != 5 && argc != 6)
-		printf(ERROR_ARGS);
-	if (ft_atoi(argv[1]) < 1)
-		printf(ERROR_ARGS_1);
-	init_data(&info, &player, argc, argv);
-	return (0);
+/*
+ @tv_sec : Stocke les secondes
+ @tv_usec : Stocke les microsecondes
+*/
+unsigned long	p_get_time(void)
+{
+	struct timeval	time;
+
+	gettimeofday(&time, NULL);
+	return ((time.tv_sec * (unsigned long)1000) + (time.tv_usec / 1000));
 }

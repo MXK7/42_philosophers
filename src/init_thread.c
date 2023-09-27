@@ -1,26 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   init_thread.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mpoussie <mpoussie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/18 15:35:09 by mpoussie          #+#    #+#             */
-/*   Updated: 2023/09/27 17:15:11 by mpoussie         ###   ########.fr       */
+/*   Created: 2023/09/26 15:44:04 by mpoussie          #+#    #+#             */
+/*   Updated: 2023/09/27 20:13:21 by mpoussie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../philo.h"
 
-int	main(int argc, char **argv)
+void	p_init_thread(t_info *info)
 {
-	t_player	*player;
-	t_info		*info;
+	int	i;
 
-	if (argc != 5 && argc != 6)
-		printf(ERROR_ARGS);
-	if (ft_atoi(argv[1]) < 1)
-		printf(ERROR_ARGS_1);
-	init_data(&info, &player, argc, argv);
-	return (0);
+	i = 0;
+	info->first_time = p_get_time();
+	while (i < info->)
 }

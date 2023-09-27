@@ -1,0 +1,5 @@
+*.exe
+*.out
+/.vscode
+push_swap_visualizer/
+*.ini
