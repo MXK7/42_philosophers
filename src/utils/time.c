@@ -6,11 +6,11 @@
 /*   By: mpoussie <mpoussie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 15:26:25 by mpoussie          #+#    #+#             */
-/*   Updated: 2023/09/27 17:26:10 by mpoussie         ###   ########.fr       */
+/*   Updated: 2023/10/11 19:56:08 by mpoussie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./../../philo.h"
+#include "philo.h"
 
 long long	p_time_diff(long long i, long long time)
 {

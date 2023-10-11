@@ -6,43 +6,39 @@
 /*   By: mpoussie <mpoussie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 18:30:22 by mpoussie          #+#    #+#             */
-/*   Updated: 2023/09/27 17:13:59 by mpoussie         ###   ########.fr       */
+/*   Updated: 2023/10/11 19:56:12 by mpoussie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./../philo.h"
+#include "philo.h"
 
-static void	init_philosophers(t_info *info, t_player *player, char **argv)
+static void	init_philosophers(t_game *game)
 {
 	int	i;
 
 	i = 0;
-	while (i < info->nbr_philo)
+	while (i < game->nbr_philo)
 	{
-		info->player[i].info = i + 1;
-		info->player[i].index = 0;
-		info->player[i].is_dead = 0;
-		info->player[i].nbr_eat = 0;
-		info->player[i].last_eat = info->first_time;
-		pthread_mutex_init(&info->player[i].left_fork, 0);
-		if (i == info->nbr_philo - 1)
-			info->player[i].right_fork = &info->player[0].left_fork;
-		else
-			info->player[i].right_fork = &info->player[i + 1].left_fork;
+		game->philos[i].index = i + 1;
+		game->philos[i].is_dead = 0;
+		game->philos[i].nbr_eat = 0;
+		game->philos[i].last_eat = game->first_time;
+		pthread_mutex_init(&game->forks[i].mutex, 0);
+		// game->forks[i].mutex = ;
 		i++;
 	}
 }
 
-void	init_data(t_info *info, t_player *player, int argc, char **argv)
+void	p_init_data(t_game *game, int argc, char **argv)
 {
-	info->nbr_philo = ft_atoi(argv[1]);
-	info->time_die = ft_atoi(argv[2]);
-	info->time_eat = ft_atoi(argv[3]);
-	info->time_sleep = ft_atoi(argv[4]);
+	game->nbr_philo = ft_atoi(argv[1]);
+	game->time_die = ft_atoi(argv[2]);
+	game->time_eat = ft_atoi(argv[3]);
+	game->time_sleep = ft_atoi(argv[4]);
 	if (argc == 6)
-		info->nbr_eating = ft_atoi(argv[5]);
+		game->eat_count = ft_atoi(argv[5]);
 	else
-		info->nbr_eating = -1;
-	info->player = malloc(sizeof(t_info) * info->nbr_philo);
-	init_philosophers(info, player, argv);
+		game->eat_count = -1;
+	game->philos = malloc(sizeof(t_philo *) * 1000);
+	init_philosophers(game);
 }
