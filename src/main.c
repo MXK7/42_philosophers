@@ -6,7 +6,7 @@
 /*   By: mpoussie <mpoussie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 15:35:09 by mpoussie          #+#    #+#             */
-/*   Updated: 2023/10/11 20:11:08 by mpoussie         ###   ########.fr       */
+/*   Updated: 2023/10/14 19:38:38 by mpoussie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,27 +15,29 @@
 static int	p_check_args(int argc, char **argv)
 {
 	int	i;
+	int	*tab;
 
-	if (argc != 5 && argc != 6)
-	{
-		printf(ERROR_ARGS);
-		return (1);
-	}
+	tab = malloc(sizeof(int *) * (argc - 1));
 	i = 1;
-	while (i <= argc)
+	while (i <= argc - 1)
 	{
-		if (!ft_isdigit(ft_atoi(argv[i])))
+		printf("%d %s,", ft_atoi(argv[i]), argv[i]);
+		if (ft_atoi(argv[i]) == 0)
 		{
+			free(tab);
 			printf(ERROR_DIGIT);
 			return (1);
 		}
+		tab[i] = ft_atoi(argv[i]);
 		i++;
 	}
-	if (ft_atoi(argv[1]) < 1)
+	printf("\n%d\n", tab[1]);
+	if (tab[1] < 1)
 	{
 		printf(ERROR_INT_MIN);
 		return (1);
 	}
+	free(tab);
 	return (0);
 }
 
@@ -43,10 +45,15 @@ int	main(int argc, char **argv)
 {
 	t_game	game;
 
-	if (!p_check_args(argc, argv))
+	if (argc == 5 || argc == 6)
 	{
-		p_init_data(&game, argc, argv);
-		p_init_thread(&game);
+		if (!p_check_args(argc, argv))
+		{
+			p_init_data(&game, argc, argv);
+			p_init_thread(&game);
+		}
 	}
+	else
+		printf(ERROR_ARGS);
 	return (0);
 }
