@@ -1,5 +1,5 @@
 *.exe
 *.out
-/.vscode
+.vscode
 push_swap_visualizer/
 *.ini

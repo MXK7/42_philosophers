@@ -12,20 +12,36 @@
 
 #include "philo.h"
 
-void	*p_init_action(void *args)
+void	*p_init_action(void *data)
 {
-	// (void)*args;
-	printf("\nTODO\n");
-	return (args);
-}
+	t_philo	*philo;
 
-	// player = (t_player *)args;
-	// info = player->info;
-	// while (true)
-	// {
-		// if (info->number_of_times_each_philosophers_must_eat == player->nbr_eat)
-			// break ;
-		// else if (player->is_dead == true)
-			// break ;
-		// printf("[PLAYER %d - %lld] - Philosophers think.\n", player->index, p_time_diff(info->first_time, p_get_time()));
-	// }
+	philo = (t_philo *)data;
+	while (true)
+	{
+		if (philo->nbr_eat == philo->data->eat_count)
+			break;
+		printf("[PLAYER %d - %lld] : Philosophers think.\n", philo->index, p_time_diff(philo->ms_eat, p_get_time()));
+		pthread_mutex_lock(&philo->fork_left);
+		printf("[PLAYER %d - %lld] : Philosopher takes a fork.\n", philo->index, p_time_diff(philo->ms_eat, p_get_time()));
+		if (philo->is_dead == 1)
+			break;
+		pthread_mutex_lock(philo->fork_right);
+		printf("[PLAYER %d - %lld] : Philosopher takes a fork.\n", philo->index, p_time_diff(philo->ms_eat, p_get_time()));
+		printf("[PLAYER %d - %lld] : Philosopher is eating.\n", philo->index, p_time_diff(philo->ms_eat, p_get_time()));
+		ft_usleep(philo->data->time_eat);
+		pthread_mutex_unlock(&philo->fork_left);
+        pthread_mutex_unlock(philo->fork_right);
+		if (philo->is_dead == 1)
+			break;
+		philo->ms_eat = p_get_time();
+		philo->end_eat = p_time_diff(philo->first_time, p_get_time()) * 1000;
+		philo->nbr_eat++;
+		if (philo->is_dead == 1)
+			break;
+		printf("[PLAYER %d - %lld] : Philosopher is sleeping.\n", philo->index, p_time_diff(philo->ms_eat, p_get_time()));
+		ft_usleep(philo->data->time_sleep);
+	}
+	printf("[PLAYER %d] : End philosopher .\n", philo->index);
+	return (NULL);
+}

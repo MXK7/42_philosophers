@@ -6,7 +6,7 @@
 /*   By: mpoussie <mpoussie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 15:35:09 by mpoussie          #+#    #+#             */
-/*   Updated: 2023/10/14 19:38:38 by mpoussie         ###   ########.fr       */
+/*   Updated: 2023/10/24 18:07:50 by mpoussie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ static int	p_check_args(int argc, char **argv)
 	i = 1;
 	while (i <= argc - 1)
 	{
-		printf("%d %s,", ft_atoi(argv[i]), argv[i]);
 		if (ft_atoi(argv[i]) == 0)
 		{
 			free(tab);
@@ -31,7 +30,6 @@ static int	p_check_args(int argc, char **argv)
 		tab[i] = ft_atoi(argv[i]);
 		i++;
 	}
-	printf("\n%d\n", tab[1]);
 	if (tab[1] < 1)
 	{
 		printf(ERROR_INT_MIN);
@@ -45,10 +43,16 @@ int	main(int argc, char **argv)
 {
 	t_game	game;
 
-	if (argc == 5 || argc == 6)
+	if (argc == ARG__MIN || argc == ARG__MAX)
 	{
 		if (!p_check_args(argc, argv))
 		{
+			game.philo = malloc(sizeof(t_philo) * game.data.nbr_philo);
+			if (game.philo == NULL)
+			{
+				printf(ERROR_ALLOC);
+				return (0);
+			}
 			p_init_data(&game, argc, argv);
 			p_init_thread(&game);
 		}

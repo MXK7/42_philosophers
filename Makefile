@@ -6,7 +6,7 @@
 #    By: mpoussie <mpoussie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/08 17:19:09 by mpoussie          #+#    #+#              #
-#    Updated: 2023/10/11 19:31:53 by mpoussie         ###   ########.fr        #
+#    Updated: 2023/10/18 14:39:14 by mpoussie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ CFLAGS = -Wall -Wextra -Werror -pthread -I ./includes/
 
 SRCS =	src/utils/time.c \
 		src/utils/ft_atoi.c \
+		src/utils/ft_usleep.c \
 		src/utils/ft_isdigit.c \
 		src/init_philo.c \
 		src/init_thread.c \
