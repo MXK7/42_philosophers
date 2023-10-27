@@ -6,7 +6,7 @@
 /*   By: mpoussie <mpoussie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 17:14:27 by mpoussie          #+#    #+#             */
-/*   Updated: 2023/10/24 18:09:46 by mpoussie         ###   ########.fr       */
+/*   Updated: 2023/10/27 21:50:17 by mpoussie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,32 +27,39 @@
 # define ERROR_INT_MIN "Argument 1 must be greater than 0.\n"
 # define ERROR_DIGIT "Argument is not numbers.\n"
 # define ERROR_ALLOC "Allocation memory is NULL.\n"
+# define ERROR_PTHREAD "Thread did not return.\n"
 
 typedef struct s_data
 {
-	int				time_die;
-	int				time_sleep;
-	int				nbr_philo;
+	int				m_eat;
 	int				time_eat;
+	int				time_die;
 	int				eat_count;
+	int				nbr_philo;
+	int				time_sleep;
 	int				first_time;
-	int				running;
+	int				nbr_philo_finish;
 	int				count_philo_death;
+	int				running;
 
-	pthread_mutex_t	m_time_eat;
+	pthread_mutex_t	m_finish;
 	pthread_mutex_t	m_dead;
+	pthread_mutex_t	m_write;
+	pthread_mutex_t	m_time_eat;
 }					t_data;
 
 typedef struct s_philo
 {
 	int				index;
-	int				nbr_eat;
-	int				is_dead;
 	int				first_time;
+	int				running;
 
+	int 			is_dead;
 	long long		ms_eat;
 	long long		end_eat;
 	long long		last_eat;
+
+	unsigned int	nbr_eat;
 
 	pthread_mutex_t	*fork_right;
 	pthread_mutex_t	fork_left;
@@ -85,13 +92,21 @@ typedef enum e_args
 int					ft_atoi(const char *str);
 int					ft_isdigit(int c);
 int					ft_usleep(int time);
+void				ft_message(char *str, t_philo *philo);
 
 long long			p_time_diff(long long i, long long time);
 unsigned long int	p_get_time(void);
 
 // ############# INIT ############# //
-void				*p_init_action(void *data);
 void				p_init_data(t_game *game, int argc, char **argv);
-void				p_init_thread(t_game *game);
+int					p_init_thread(t_game *game);
+int					p_init_philosophers(t_game *game);
+void				*p_init_action(void *data);
+
+// ############# ACTIONS ############# //
+void				*p_is_dead(void *data);
+int					p_check_death(t_philo *philo, int i);
+void				p_take_fork__eat(t_philo *philo);
+void				p_sleep_think(t_philo *philo);
 
 #endif
