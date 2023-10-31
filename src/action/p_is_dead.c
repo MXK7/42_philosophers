@@ -6,7 +6,7 @@
 /*   By: mpoussie <mpoussie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 13:20:56 by mpoussie          #+#    #+#             */
-/*   Updated: 2023/10/27 21:50:27 by mpoussie         ###   ########.fr       */
+/*   Updated: 2023/10/31 16:15:25 by mpoussie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	*p_is_dead(void *data)
 	ft_usleep(philo->data->time_die + 1);
 	pthread_mutex_lock(&philo->data->m_time_eat);
 	pthread_mutex_lock(&philo->data->m_finish);
-	if (!p_check_death(philo, 0) && !philo->running && (
+	if (!p_check_death(philo, 0) && !philo->finish && (
 		(p_get_time() - (unsigned long)philo->ms_eat) >= (unsigned long)(philo->is_dead)))
 	{
 		pthread_mutex_unlock(&philo->data->m_time_eat);

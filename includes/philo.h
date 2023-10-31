@@ -6,7 +6,7 @@
 /*   By: mpoussie <mpoussie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 17:14:27 by mpoussie          #+#    #+#             */
-/*   Updated: 2023/10/27 21:50:17 by mpoussie         ###   ########.fr       */
+/*   Updated: 2023/10/31 16:20:15 by mpoussie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ typedef struct s_data
 	int				first_time;
 	int				nbr_philo_finish;
 	int				count_philo_death;
-	int				running;
+	int				stop;
 
 	pthread_mutex_t	m_finish;
 	pthread_mutex_t	m_dead;
@@ -52,9 +52,9 @@ typedef struct s_philo
 {
 	int				index;
 	int				first_time;
-	int				running;
+	int				finish;
 
-	int 			is_dead;
+	int				is_dead;
 	long long		ms_eat;
 	long long		end_eat;
 	long long		last_eat;
@@ -91,7 +91,7 @@ typedef enum e_args
 // ############# UTILS ############# //
 int					ft_atoi(const char *str);
 int					ft_isdigit(int c);
-int					ft_usleep(int time);
+void				ft_usleep(long int time_in_ms);
 void				ft_message(char *str, t_philo *philo);
 
 long long			p_time_diff(long long i, long long time);

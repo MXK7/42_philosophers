@@ -6,7 +6,7 @@
 /*   By: mpoussie <mpoussie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 15:35:09 by mpoussie          #+#    #+#             */
-/*   Updated: 2023/10/27 21:41:04 by mpoussie         ###   ########.fr       */
+/*   Updated: 2023/10/31 16:28:50 by mpoussie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	check_death2(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->data->m_dead);
-	if (philo->data->running)
+	if (philo->data->stop)
 	{
 		pthread_mutex_unlock(&philo->data->m_dead);
 		return (1);
@@ -70,7 +70,7 @@ static void p_stop(t_game *game)
 		pthread_mutex_destroy(&game->philo[i].fork_left);
 		i++;
 	}
-	if (game->data.running == 2)
+	if (game->data.stop == 2)
 		printf("Each philosopher ate %d time(s)\n", game->data.m_eat);
 	free(game->philo);
 }

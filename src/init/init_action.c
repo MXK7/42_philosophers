@@ -6,7 +6,7 @@
 /*   By: mpoussie <mpoussie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 16:28:05 by mpoussie          #+#    #+#             */
-/*   Updated: 2023/10/27 21:43:39 by mpoussie         ###   ########.fr       */
+/*   Updated: 2023/10/31 16:15:28 by mpoussie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	*p_init_action(void *data)
 	philo = (t_philo *)data;
 	if ((philo->index % 2) == 0)
 		ft_usleep(philo->data->time_eat);
-	printf("44");
 	while (p_check_death(philo, 0))
 	{
 		pthread_create(&philo->t_death_id, NULL, p_is_dead, data);
@@ -34,7 +33,7 @@ void	*p_init_action(void *data)
 		if ((int)++philo->nbr_eat == philo->data->m_eat)
 		{
 			pthread_mutex_lock(&philo->data->m_finish);
-			philo->running = 1;
+			philo->finish = 1;
 			philo->data->nbr_philo_finish++;
 			if (philo->data->nbr_philo_finish == philo->data->nbr_philo)
 			{
