@@ -6,7 +6,7 @@
 /*   By: mpoussie <mpoussie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 13:20:56 by mpoussie          #+#    #+#             */
-/*   Updated: 2023/10/31 16:15:25 by mpoussie         ###   ########.fr       */
+/*   Updated: 2023/10/31 20:15:44 by mpoussie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	*p_is_dead(void *data)
 		pthread_mutex_unlock(&philo->data->m_time_eat);
 		pthread_mutex_unlock(&philo->data->m_finish);
 		pthread_mutex_lock(&philo->data->m_write);
-		ft_message("died.", philo);
+		ft_message("died.\n", philo);
 		pthread_mutex_unlock(&philo->data->m_write);
 		p_check_death(philo, 1);
 	}

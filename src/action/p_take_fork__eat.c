@@ -6,7 +6,7 @@
 /*   By: mpoussie <mpoussie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 14:47:44 by mpoussie          #+#    #+#             */
-/*   Updated: 2023/10/27 18:33:03 by mpoussie         ###   ########.fr       */
+/*   Updated: 2023/10/31 20:16:17 by mpoussie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	p_take_fork__eat(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->fork_left);
 	pthread_mutex_lock(&philo->data->m_write);
-	ft_message("has taken a fork.", philo);
+	ft_message("has taken a fork.\n", philo);
 	pthread_mutex_unlock(&philo->data->m_write);
 	if (!philo->fork_right)
 	{
@@ -25,10 +25,10 @@ void	p_take_fork__eat(t_philo *philo)
 	}
 	pthread_mutex_lock(philo->fork_right);
 	pthread_mutex_lock(&philo->data->m_write);
-	ft_message("has taken a fork.", philo);
+	ft_message("has taken a fork.\n", philo);
 	pthread_mutex_unlock(&philo->data->m_write);
 	pthread_mutex_lock(&philo->data->m_write);
-	ft_message("is eating.", philo);
+	ft_message("is eating.\n", philo);
 	pthread_mutex_lock(&philo->data->m_time_eat);
 	philo->ms_eat = p_get_time();
 	pthread_mutex_unlock(&philo->data->m_time_eat);

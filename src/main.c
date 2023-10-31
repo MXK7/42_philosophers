@@ -6,7 +6,7 @@
 /*   By: mpoussie <mpoussie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 15:35:09 by mpoussie          #+#    #+#             */
-/*   Updated: 2023/10/31 16:28:50 by mpoussie         ###   ########.fr       */
+/*   Updated: 2023/10/31 20:10:16 by mpoussie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static void p_stop(t_game *game)
 
 	i = 0;
 	while (!check_death2(game->philo))
-		ft_usleep(1);
+		ft_usleep(10);
 	while (i < game->data.nbr_philo)
 	{
 		pthread_join(game->philo[i].thread, NULL);
