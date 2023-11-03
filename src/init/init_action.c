@@ -6,17 +6,11 @@
 /*   By: mpoussie <mpoussie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 16:28:05 by mpoussie          #+#    #+#             */
-/*   Updated: 2023/10/31 20:12:13 by mpoussie         ###   ########.fr       */
+/*   Updated: 2023/11/03 21:07:26 by mpoussie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-static void	p_action(t_philo *philo)
-{
-	p_take_fork__eat(philo);
-	p_sleep_think(philo);
-}
 
 void	*p_init_action(void *data)
 {
@@ -24,15 +18,13 @@ void	*p_init_action(void *data)
 
 	philo = (t_philo *)data;
 	if ((philo->index % 2) == 0)
-		ft_usleep(philo->data->time_eat);
-	printf("aa45345643\n");
-	while (p_check_death(philo, 0))
+		ft_usleep(philo->data->time_eat / 10);
+	while (!p_check_death(philo, 0))
 	{
-		printf("aa\n");
 		pthread_create(&philo->t_death_id, NULL, p_is_dead, data);
-		p_action(data);
+		p_routine(philo);
 		pthread_detach(philo->t_death_id);
-		if ((int)++philo->nbr_eat == philo->data->m_eat)
+		if ((int)philo->nbr_eat == philo->data->m_eat)
 		{
 			pthread_mutex_lock(&philo->data->m_finish);
 			philo->finish = 1;
@@ -43,8 +35,11 @@ void	*p_init_action(void *data)
 				p_check_death(philo, 2);
 			}
 			pthread_mutex_unlock(&philo->data->m_finish);
+			philo->nbr_eat++;
 			return (NULL);
 		}
+		if (!p_check_death(philo, 0))
+			break;
 	}
 	return (NULL);
 }

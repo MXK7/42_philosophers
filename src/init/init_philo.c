@@ -6,11 +6,19 @@
 /*   By: mpoussie <mpoussie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 18:30:22 by mpoussie          #+#    #+#             */
-/*   Updated: 2023/10/31 20:05:25 by mpoussie         ###   ########.fr       */
+/*   Updated: 2023/11/03 18:30:34 by mpoussie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+static void	p_init_mutex(t_game *game)
+{
+	pthread_mutex_init(&(game->data.m_dead), NULL);
+	pthread_mutex_init(&(game->data.m_finish), NULL);
+	pthread_mutex_init(&(game->data.m_write), NULL);
+	pthread_mutex_init(&(game->data.m_time_eat), NULL);
+}
 
 int	p_init_philosophers(t_game *game)
 {
@@ -20,10 +28,7 @@ int	p_init_philosophers(t_game *game)
 	game->data.first_time = p_get_time();
 	game->data.stop = 0;
 	game->data.nbr_philo_finish = 0;
-	pthread_mutex_init(&(game->data.m_dead), NULL);
-	pthread_mutex_init(&(game->data.m_finish), NULL);
-	pthread_mutex_init(&(game->data.m_write), NULL);
-	pthread_mutex_init(&(game->data.m_time_eat), NULL);
+	p_init_mutex(game);
 	while (i < game->data.nbr_philo)
 	{
 		game->philo[i].index = i + 1;
@@ -32,9 +37,7 @@ int	p_init_philosophers(t_game *game)
 		game->philo[i].fork_right = NULL;
 		game->philo[i].ms_eat = game->data.first_time;
 		pthread_mutex_init(&(game->philo[i].fork_left), NULL);
-		if (game->data.nbr_philo == 1)
-			return (1);
-		if (i == game->data.nbr_philo)
+		if (i == game->data.nbr_philo - 1)
 			game->philo[i].fork_right = &game->philo[0].fork_left;
 		else
 			game->philo[i].fork_right = &game->philo[i + 1].fork_left;

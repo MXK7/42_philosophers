@@ -6,23 +6,23 @@
 /*   By: mpoussie <mpoussie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 15:35:09 by mpoussie          #+#    #+#             */
-/*   Updated: 2023/10/31 20:10:16 by mpoussie         ###   ########.fr       */
+/*   Updated: 2023/11/03 17:06:54 by mpoussie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	check_death2(t_philo *philo)
-{
-	pthread_mutex_lock(&philo->data->m_dead);
-	if (philo->data->stop)
-	{
-		pthread_mutex_unlock(&philo->data->m_dead);
-		return (1);
-	}
-	pthread_mutex_unlock(&philo->data->m_dead);
-	return (0);
-}
+// int	check_death2(t_philo *philo)
+// {
+// 	pthread_mutex_lock(&philo->data->m_dead);
+// 	if (philo->data->stop)
+// 	{
+// 		pthread_mutex_unlock(&philo->data->m_dead);
+// 		return (1);
+// 	}
+// 	pthread_mutex_unlock(&philo->data->m_dead);
+// 	return (0);
+// }
 
 static int	p_check_args(int argc, char **argv)
 {
@@ -51,12 +51,12 @@ static int	p_check_args(int argc, char **argv)
 	return (0);
 }
 
-static void p_stop(t_game *game)
+static void	p_stop(t_game *game)
 {
 	int	i;
 
 	i = 0;
-	while (!check_death2(game->philo))
+	while (!p_check_death(game->philo, 0))
 		ft_usleep(10);
 	while (i < game->data.nbr_philo)
 	{
@@ -64,6 +64,9 @@ static void p_stop(t_game *game)
 		i++;
 	}
 	pthread_mutex_destroy(&game->philo->data->m_write);
+	pthread_mutex_destroy(&game->philo->data->m_dead);
+	pthread_mutex_destroy(&game->philo->data->m_finish);
+	pthread_mutex_destroy(&game->philo->data->m_time_eat);
 	i = 0;
 	while (i < game->data.nbr_philo)
 	{
@@ -84,7 +87,7 @@ int	main(int argc, char **argv)
 		if (!p_check_args(argc, argv))
 		{
 			p_init_data(&game, argc, argv);
-			game.philo = calloc(1, sizeof(t_philo) * game.data.nbr_philo);
+			game.philo = malloc(sizeof(t_philo) * game.data.nbr_philo);
 			if (game.philo == NULL)
 			{
 				printf(ERROR_ALLOC);

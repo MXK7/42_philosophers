@@ -6,7 +6,7 @@
 #    By: mpoussie <mpoussie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/08 17:19:09 by mpoussie          #+#    #+#              #
-#    Updated: 2023/10/27 18:55:48 by mpoussie         ###   ########.fr        #
+#    Updated: 2023/11/03 18:48:05 by mpoussie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,8 +23,7 @@ SRCS =	src/utils/time.c \
 		src/utils/ft_message.c \
 		src/action/p_check_death.c \
 		src/action/p_is_dead.c \
-		src/action/p_take_fork__eat.c \
-		src/action/p_sleep_think.c \
+		src/action/p_routine.c \
 		src/init/init_philo.c \
 		src/init/init_data.c \
 		src/init/init_thread.c \

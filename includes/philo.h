@@ -6,7 +6,7 @@
 /*   By: mpoussie <mpoussie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 17:14:27 by mpoussie          #+#    #+#             */
-/*   Updated: 2023/10/31 16:20:15 by mpoussie         ###   ########.fr       */
+/*   Updated: 2023/11/03 18:46:44 by mpoussie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ typedef struct s_data
 	int				eat_count;
 	int				nbr_philo;
 	int				time_sleep;
-	int				first_time;
 	int				nbr_philo_finish;
 	int				count_philo_death;
 	int				stop;
+	size_t			first_time;
 
 	pthread_mutex_t	m_finish;
 	pthread_mutex_t	m_dead;
@@ -95,7 +95,7 @@ void				ft_usleep(long int time_in_ms);
 void				ft_message(char *str, t_philo *philo);
 
 long long			p_time_diff(long long i, long long time);
-unsigned long int	p_get_time(void);
+long int			p_get_time(void);
 
 // ############# INIT ############# //
 void				p_init_data(t_game *game, int argc, char **argv);
@@ -106,7 +106,6 @@ void				*p_init_action(void *data);
 // ############# ACTIONS ############# //
 void				*p_is_dead(void *data);
 int					p_check_death(t_philo *philo, int i);
-void				p_take_fork__eat(t_philo *philo);
-void				p_sleep_think(t_philo *philo);
+void				p_routine(t_philo *philo);
 
 #endif

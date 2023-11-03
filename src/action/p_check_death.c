@@ -6,7 +6,7 @@
 /*   By: mpoussie <mpoussie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 16:38:59 by mpoussie          #+#    #+#             */
-/*   Updated: 2023/10/31 20:15:36 by mpoussie         ###   ########.fr       */
+/*   Updated: 2023/11/03 21:05:58 by mpoussie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,10 @@
 
 int	p_check_death(t_philo *philo, int i)
 {
-
 	pthread_mutex_lock(&philo->data->m_dead);
-	if (i != 0)
+	if (i)
 		philo->data->stop = i;
-	if (philo->data->stop == 0)
+	if (philo->data->stop)
 	{
 		pthread_mutex_unlock(&philo->data->m_dead);
 		return (1);
