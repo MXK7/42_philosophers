@@ -6,7 +6,7 @@
 /*   By: mpoussie <mpoussie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 16:28:05 by mpoussie          #+#    #+#             */
-/*   Updated: 2023/11/03 21:07:26 by mpoussie         ###   ########.fr       */
+/*   Updated: 2023/11/08 19:40:58 by mpoussie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,10 @@ void	*p_init_action(void *data)
 	philo = (t_philo *)data;
 	if ((philo->index % 2) == 0)
 		ft_usleep(philo->data->time_eat / 10);
-	while (!p_check_death(philo, 0))
+	while (!p_check_death(philo, 0, true))
 	{
+		if (p_check_death(philo, 0, false))
+			break ;
 		pthread_create(&philo->t_death_id, NULL, p_is_dead, data);
 		p_routine(philo);
 		pthread_detach(philo->t_death_id);
@@ -32,14 +34,13 @@ void	*p_init_action(void *data)
 			if (philo->data->nbr_philo_finish == philo->data->nbr_philo)
 			{
 				pthread_mutex_unlock(&philo->data->m_finish);
-				p_check_death(philo, 2);
+				p_check_death(philo, 2, false);
 			}
 			pthread_mutex_unlock(&philo->data->m_finish);
-			philo->nbr_eat++;
+			// philo->nbr_eat++;
 			return (NULL);
 		}
-		if (!p_check_death(philo, 0))
-			break;
 	}
+	ft_usleep(1);
 	return (NULL);
 }

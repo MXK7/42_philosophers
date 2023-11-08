@@ -6,7 +6,7 @@
 /*   By: mpoussie <mpoussie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 14:29:31 by mpoussie          #+#    #+#             */
-/*   Updated: 2023/11/02 23:50:24 by mpoussie         ###   ########.fr       */
+/*   Updated: 2023/11/08 18:59:42 by mpoussie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,6 @@ void	ft_usleep(long int time_in_ms)
 
 	start_time = 0;
 	start_time = p_get_time();
-	while (((long int)p_get_time() - start_time) < time_in_ms)
+	while ((p_get_time() - start_time) < time_in_ms)
 		usleep(time_in_ms / 10);
 }

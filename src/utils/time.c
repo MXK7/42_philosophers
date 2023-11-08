@@ -6,7 +6,7 @@
 /*   By: mpoussie <mpoussie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 15:26:25 by mpoussie          #+#    #+#             */
-/*   Updated: 2023/11/03 18:29:50 by mpoussie         ###   ########.fr       */
+/*   Updated: 2023/11/08 19:13:26 by mpoussie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ long int	p_get_time(void)
 
 	time = 0;
 	if (gettimeofday(&current_time, NULL) == -1)
-		return (printf("ERROR.\n"));
+		return (printf(ERROR_GET_TIME));
 	time = (current_time.tv_sec * 1000) + (current_time.tv_usec / 1000);
 	return (time);
 }

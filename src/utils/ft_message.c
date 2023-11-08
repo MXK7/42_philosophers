@@ -6,7 +6,7 @@
 /*   By: mpoussie <mpoussie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 17:44:20 by mpoussie          #+#    #+#             */
-/*   Updated: 2023/11/03 17:19:23 by mpoussie         ###   ########.fr       */
+/*   Updated: 2023/11/08 18:57:02 by mpoussie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ void	ft_message(char *str, t_philo *philo)
 
 	time = -1;
 	time = p_get_time() - philo->data->first_time;
-	if (time >= 0 && time <= 2147483647 && !p_check_death(philo, 0))
+	if (time >= 0 && time <= 2147483647 && !p_check_death(philo, 0, true))
 	{
 		printf("TIME : %ld\n", time);
-		printf("Philosophers [%d] : %s\n", philo->index, str);
+		printf("Philosophers [%d] : %s\n", philo->index, str);		
 	}
 }

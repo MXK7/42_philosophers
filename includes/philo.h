@@ -6,7 +6,7 @@
 /*   By: mpoussie <mpoussie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 17:14:27 by mpoussie          #+#    #+#             */
-/*   Updated: 2023/11/03 18:46:44 by mpoussie         ###   ########.fr       */
+/*   Updated: 2023/11/08 19:12:48 by mpoussie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # define ERROR_DIGIT "Argument is not numbers.\n"
 # define ERROR_ALLOC "Allocation memory is NULL.\n"
 # define ERROR_PTHREAD "Thread did not return.\n"
+# define ERROR_GET_TIME "An error has occurred while executing the [@P_GET_TIME] function.\n"
 
 typedef struct s_data
 {
@@ -105,7 +106,7 @@ void				*p_init_action(void *data);
 
 // ############# ACTIONS ############# //
 void				*p_is_dead(void *data);
-int					p_check_death(t_philo *philo, int i);
+int					p_check_death(t_philo *philo, int i, bool use_stop);
 void				p_routine(t_philo *philo);
 
 #endif

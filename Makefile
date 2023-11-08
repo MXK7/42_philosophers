@@ -6,7 +6,7 @@
 #    By: mpoussie <mpoussie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/08 17:19:09 by mpoussie          #+#    #+#              #
-#    Updated: 2023/11/03 18:48:05 by mpoussie         ###   ########.fr        #
+#    Updated: 2023/11/08 20:09:27 by mpoussie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,8 @@ NAME = philo
 
 CC = cc
 RM = rm -rf
-CFLAGS = -Wall -Wextra -Werror -g3 -pthread -I ./includes/
+CFLAGS = -Wall -Wextra -Werror -g3 -pthread -fsanitize=thread -I ./includes/
+# CFLAGS = -Wall -Wextra -Werror -g3 -pthread -I ./includes/
 
 SRCS =	src/utils/time.c \
 		src/utils/ft_atoi.c \

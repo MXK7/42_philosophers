@@ -6,7 +6,7 @@
 /*   By: mpoussie <mpoussie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 18:30:22 by mpoussie          #+#    #+#             */
-/*   Updated: 2023/11/03 18:30:34 by mpoussie         ###   ########.fr       */
+/*   Updated: 2023/11/08 19:08:34 by mpoussie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,16 @@ int	p_init_philosophers(t_game *game)
 		game->philo[i].is_dead = 0;
 		game->philo[i].nbr_eat = 0;
 		game->philo[i].fork_right = NULL;
+		game->philo[i].finish = 0;
 		game->philo[i].ms_eat = game->data.first_time;
 		pthread_mutex_init(&(game->philo[i].fork_left), NULL);
+		if (game->data.nbr_philo == 1 - 1)
+			return (1);
 		if (i == game->data.nbr_philo - 1)
 			game->philo[i].fork_right = &game->philo[0].fork_left;
 		else
 			game->philo[i].fork_right = &game->philo[i + 1].fork_left;
 		i++;
 	}
-	return (0);
+	return (1);
 }
