@@ -1,23 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_usleep.c                                        :+:      :+:    :+:   */
+/*   p_sleep.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mpoussie <mpoussie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/18 14:29:31 by mpoussie          #+#    #+#             */
-/*   Updated: 2023/11/08 18:59:42 by mpoussie         ###   ########.fr       */
+/*   Created: 2023/11/14 10:31:05 by mpoussie          #+#    #+#             */
+/*   Updated: 2023/11/17 01:05:41 by mpoussie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	ft_usleep(long int time_in_ms)
+void	p_usleep(long long time, t_data *data)
 {
-	long int	start_time;
+	long long	i;
 
-	start_time = 0;
-	start_time = p_get_time();
-	while ((p_get_time() - start_time) < time_in_ms)
-		usleep(time_in_ms / 10);
+	i = p_get_time();
+	while (!(data->p_die))
+	{
+		if (p_time_diff(i, p_get_time()) >= time)
+			break ;
+		usleep(50);
+	}
 }

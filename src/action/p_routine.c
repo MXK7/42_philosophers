@@ -6,46 +6,26 @@
 /*   By: mpoussie <mpoussie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 14:47:44 by mpoussie          #+#    #+#             */
-/*   Updated: 2023/11/08 19:57:31 by mpoussie         ###   ########.fr       */
+/*   Updated: 2023/11/17 01:05:21 by mpoussie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void	p_sleep_think(t_philo *philo)
+void	p_eats(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->data->m_write);
-	ft_message("is sleeping.", philo);
-	pthread_mutex_unlock(&philo->data->m_write);
-	ft_usleep(philo->data->time_sleep);
-	pthread_mutex_lock(&philo->data->m_write);
-	ft_message("is thinking.", philo);
-	pthread_mutex_unlock(&philo->data->m_write);
-}
+	t_data	*data;
 
-void	p_routine(t_philo *philo)
-{
-	pthread_mutex_lock(&philo->fork_left);
-	pthread_mutex_lock(&philo->data->m_write);
-	ft_message("has taken a fork.", philo);
-	pthread_mutex_unlock(&philo->data->m_write);
-	if (!philo->fork_right)
-	{
-		ft_usleep(philo->data->time_die * 2);
-		return ;
-	}
-	pthread_mutex_lock(philo->fork_right);
-	pthread_mutex_lock(&philo->data->m_write);
-	ft_message("has taken a fork.", philo);
-	pthread_mutex_unlock(&philo->data->m_write);
-	pthread_mutex_lock(&philo->data->m_write);
-	ft_message("is eating.", philo);
-	pthread_mutex_lock(&philo->data->m_time_eat);
-	philo->ms_eat = p_get_time();
-	pthread_mutex_unlock(&philo->data->m_time_eat);
-	pthread_mutex_unlock(&philo->data->m_write);
-	ft_usleep(philo->data->time_eat);
-	pthread_mutex_unlock(philo->fork_right);
-	pthread_mutex_unlock(&philo->fork_left);
-	p_sleep_think(philo);
+	data = philo->data;
+	pthread_mutex_lock(&(data->fork[philo->fork_left_id]));
+	ft_message("has taken a fork.", philo->id, data);
+	pthread_mutex_lock(&(data->fork[philo->fork_right_id]));
+	ft_message("has taken a fork.", philo->id, data);
+	pthread_mutex_lock(&(data->m_eat));
+	ft_message("is eating.", philo->id, data);
+	philo->last_eat = p_get_time();
+	pthread_mutex_unlock(&(data->m_eat));
+	p_usleep(data->time_eat, data);
+	pthread_mutex_unlock(&(data->fork[philo->fork_right_id]));
+	pthread_mutex_unlock(&(data->fork[philo->fork_left_id]));
 }

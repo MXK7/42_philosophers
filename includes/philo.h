@@ -6,7 +6,7 @@
 /*   By: mpoussie <mpoussie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 17:14:27 by mpoussie          #+#    #+#             */
-/*   Updated: 2023/11/08 19:12:48 by mpoussie         ###   ########.fr       */
+/*   Updated: 2023/11/17 00:10:16 by mpoussie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,52 +30,35 @@
 # define ERROR_PTHREAD "Thread did not return.\n"
 # define ERROR_GET_TIME "An error has occurred while executing the [@P_GET_TIME] function.\n"
 
-typedef struct s_data
-{
-	int				m_eat;
-	int				time_eat;
-	int				time_die;
-	int				eat_count;
-	int				nbr_philo;
-	int				time_sleep;
-	int				nbr_philo_finish;
-	int				count_philo_death;
-	int				stop;
-	size_t			first_time;
-
-	pthread_mutex_t	m_finish;
-	pthread_mutex_t	m_dead;
-	pthread_mutex_t	m_write;
-	pthread_mutex_t	m_time_eat;
-}					t_data;
+struct s_data;
 
 typedef struct s_philo
 {
-	int				index;
-	int				first_time;
-	int				finish;
-
-	int				is_dead;
-	long long		ms_eat;
-	long long		end_eat;
-	long long		last_eat;
-
-	unsigned int	nbr_eat;
-
-	pthread_mutex_t	*fork_right;
-	pthread_mutex_t	fork_left;
-
+	int				id;
+	int				fork_right_id;
+	int				fork_left_id;
+	size_t			count_eat;
+	size_t			last_eat;
+	struct s_data	*data;
 	pthread_t		thread;
-	pthread_t		t_death_id;
-
-	t_data			*data;
 }					t_philo;
 
-typedef struct s_game
+typedef struct s_data
 {
-	t_philo			*philo;
-	t_data			data;
-}					t_game;
+	int				p_die;
+	int				running;
+	int				nbr_philo;
+	int				time_eat;
+	int				time_die;
+	int				time_sleep;
+	size_t			nbr_eat;
+	size_t			first_time;
+	pthread_mutex_t	m_eat;
+	pthread_mutex_t	m_write;
+	pthread_mutex_t	m_die;
+	pthread_mutex_t	fork[250];
+	t_philo			philo[250];
+}					t_data;
 
 typedef enum e_args
 {
@@ -93,20 +76,20 @@ typedef enum e_args
 int					ft_atoi(const char *str);
 int					ft_isdigit(int c);
 void				ft_usleep(long int time_in_ms);
-void				ft_message(char *str, t_philo *philo);
+void				ft_message(char *str, int id, t_data *data);
 
 long long			p_time_diff(long long i, long long time);
-long int			p_get_time(void);
+size_t				p_get_time(void);
 
 // ############# INIT ############# //
-void				p_init_data(t_game *game, int argc, char **argv);
-int					p_init_thread(t_game *game);
-int					p_init_philosophers(t_game *game);
-void				*p_init_action(void *data);
+void				p_init_data(t_data *data, int argc, char **argv);
+int					p_init_thread(t_data *game);
+int					p_init_philosophers(t_data *data, int argc, char **argv);
+void				*p_init_action(void *v_philo);
 
 // ############# ACTIONS ############# //
-void				*p_is_dead(void *data);
-int					p_check_death(t_philo *philo, int i, bool use_stop);
-void				p_routine(t_philo *philo);
+void				p_usleep(long long time, t_data *data);
+void				p_check_death(t_data *data, t_philo *philo);
+void				p_eats(t_philo *philo);
 
 #endif

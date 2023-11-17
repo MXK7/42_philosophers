@@ -6,20 +6,20 @@
 /*   By: mpoussie <mpoussie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 18:30:22 by mpoussie          #+#    #+#             */
-/*   Updated: 2023/11/07 17:51:32 by mpoussie         ###   ########.fr       */
+/*   Updated: 2023/11/17 01:03:32 by mpoussie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	p_init_data(t_game *game, int argc, char **argv)
+void	p_init_data(t_data *data, int argc, char **argv)
 {
-	game->data.nbr_philo = ft_atoi(argv[1]);
-	game->data.time_die = ft_atoi(argv[2]);
-	game->data.time_eat = ft_atoi(argv[3]);
-	game->data.time_sleep = ft_atoi(argv[4]);
+	data->nbr_philo = ft_atoi(argv[1]);
+	data->time_die = ft_atoi(argv[2]);
+	data->time_eat = ft_atoi(argv[3]);
+	data->time_sleep = ft_atoi(argv[4]);
 	if (argc == ARG__MAX)
-		game->data.eat_count = ft_atoi(argv[5]);
+		data->nbr_eat = ft_atoi(argv[5]);
 	else
-		game->data.eat_count = -1;
+		data->nbr_eat = -1;
 }

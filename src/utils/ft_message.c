@@ -6,21 +6,20 @@
 /*   By: mpoussie <mpoussie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 17:44:20 by mpoussie          #+#    #+#             */
-/*   Updated: 2023/11/08 18:57:02 by mpoussie         ###   ########.fr       */
+/*   Updated: 2023/11/16 22:41:50 by mpoussie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	ft_message(char *str, t_philo *philo)
+void	ft_message(char *str, int id, t_data *data)
 {
-	long int	time;
-
-	time = -1;
-	time = p_get_time() - philo->data->first_time;
-	if (time >= 0 && time <= 2147483647 && !p_check_death(philo, 0, true))
+	pthread_mutex_lock(&(data->m_write));
+	if (!(data->p_die))
 	{
-		printf("TIME : %ld\n", time);
-		printf("Philosophers [%d] : %s\n", philo->index, str);		
+		printf("TIME : %ld\n", p_get_time() - data->first_time);
+		printf("Philosophers [%d] : %s\n", id, str);
 	}
+	pthread_mutex_unlock(&(data->m_write));
+	return ;
 }
