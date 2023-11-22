@@ -6,13 +6,13 @@
 /*   By: mpoussie <mpoussie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 15:35:09 by mpoussie          #+#    #+#             */
-/*   Updated: 2023/11/16 22:16:13 by mpoussie         ###   ########.fr       */
+/*   Updated: 2023/11/21 10:08:47 by mpoussie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static int	p_check_args(int argc, char **argv)
+static bool	p_check_args(int argc, char **argv)
 {
 	int	i;
 	int	*tab;
@@ -25,7 +25,7 @@ static int	p_check_args(int argc, char **argv)
 		{
 			free(tab);
 			printf(ERROR_DIGIT);
-			return (1);
+			return (false);
 		}
 		tab[i] = ft_atoi(argv[i]);
 		i++;
@@ -33,25 +33,30 @@ static int	p_check_args(int argc, char **argv)
 	if (tab[1] < 1)
 	{
 		printf(ERROR_INT_MIN);
-		return (1);
+		return (false);
 	}
 	free(tab);
-	return (0);
+	return (true);
 }
 
 int	main(int argc, char **argv)
 {
-	t_data	data;
+	t_data	*data;
 
+	data = (t_data *)malloc(sizeof(t_data));
+	if (data == NULL)
+		return (1);
 	if (argc == ARG__MIN || argc == ARG__MAX)
 	{
-		if (!p_check_args(argc, argv))
+		if ((p_check_args(argc, argv) == true) && (p_init_data(data, argc,
+					argv) == true))
 		{
-			p_init_philosophers(&data, argc, argv);
-			p_init_thread(&data);
+			if (p_init_philosophers(data) == true)
+				p_init_thread(data);
 		}
 	}
 	else
 		printf(ERROR_ARGS);
+	free(data);
 	return (0);
 }

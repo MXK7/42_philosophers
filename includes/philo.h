@@ -6,7 +6,7 @@
 /*   By: mpoussie <mpoussie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 17:14:27 by mpoussie          #+#    #+#             */
-/*   Updated: 2023/11/17 00:10:16 by mpoussie         ###   ########.fr       */
+/*   Updated: 2023/11/21 10:08:14 by mpoussie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,19 @@
 # define ERROR_DIGIT "Argument is not numbers.\n"
 # define ERROR_ALLOC "Allocation memory is NULL.\n"
 # define ERROR_PTHREAD "Thread did not return.\n"
-# define ERROR_GET_TIME "An error has occurred while executing the [@P_GET_TIME] function.\n"
+# define ERROR_GET_TIME "An error has occurred while executing the function.\n"
+# define ERROR_INIT_VALUE "The values you have entered is considered bad.\n"
+# define ERROR_INIT_MUTEX "Error initializing one or more mutexes.\n"
 
-struct s_data;
+struct		s_data;
 
 typedef struct s_philo
 {
 	int				id;
 	int				fork_right_id;
 	int				fork_left_id;
-	size_t			count_eat;
-	size_t			last_eat;
+	int				count_eat;
+	long long		last_eat;
 	struct s_data	*data;
 	pthread_t		thread;
 }					t_philo;
@@ -51,8 +53,8 @@ typedef struct s_data
 	int				time_eat;
 	int				time_die;
 	int				time_sleep;
-	size_t			nbr_eat;
-	size_t			first_time;
+	int				nbr_eat;
+	long long		first_time;
 	pthread_mutex_t	m_eat;
 	pthread_mutex_t	m_write;
 	pthread_mutex_t	m_die;
@@ -76,20 +78,21 @@ typedef enum e_args
 int					ft_atoi(const char *str);
 int					ft_isdigit(int c);
 void				ft_usleep(long int time_in_ms);
-void				ft_message(char *str, int id, t_data *data);
+void				ft_message(char *str, int id, t_data *data, t_philo *philo);
 
 long long			p_time_diff(long long i, long long time);
-size_t				p_get_time(void);
+long long			p_get_time(void);
 
 // ############# INIT ############# //
-void				p_init_data(t_data *data, int argc, char **argv);
-int					p_init_thread(t_data *game);
-int					p_init_philosophers(t_data *data, int argc, char **argv);
+bool				p_init_data(t_data *data, int argc, char **argv);
+bool				p_init_philosophers(t_data *data);
+bool				p_init_thread(t_data *data);
 void				*p_init_action(void *v_philo);
 
 // ############# ACTIONS ############# //
-void				p_usleep(long long time, t_data *data);
-void				p_check_death(t_data *data, t_philo *philo);
 void				p_eats(t_philo *philo);
+void				p_sleep(long long time, t_data *data, t_philo *philo);
+bool				p_check_death(t_data *data, t_philo *philo);
+void				p_handle_death(t_data *data, t_philo *philo);
 
 #endif

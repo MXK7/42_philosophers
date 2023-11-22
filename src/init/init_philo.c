@@ -6,39 +6,40 @@
 /*   By: mpoussie <mpoussie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 18:30:22 by mpoussie          #+#    #+#             */
-/*   Updated: 2023/11/17 01:02:58 by mpoussie         ###   ########.fr       */
+/*   Updated: 2023/11/21 10:07:35 by mpoussie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static int	p_init_mutex(t_data *data)
+static bool	p_init_mutex(t_data *data)
 {
 	int	i;
 
 	i = 0;
 	while (i++ < data->nbr_philo)
 	{
-		if (pthread_mutex_init(&(data->fork[i]), NULL))
-			return (1);
-		i++;
+		if (pthread_mutex_init(&(data->fork[i - 1]), NULL))
+			return (false);
 	}
 	if (pthread_mutex_init(&(data->m_write), NULL))
-		return (1);
+		return (false);
 	if (pthread_mutex_init(&(data->m_eat), NULL))
-		return (1);
-	return (0);
+		return (false);
+	if (pthread_mutex_init(&(data->m_die), NULL))
+		return (false);
+	return (true);
 }
 
-int	p_init_philosophers(t_data *data, int argc, char **argv)
+bool	p_init_philosophers(t_data *data)
 {
 	int	i;
 
-	p_init_data(data, argc, argv);
-	p_init_mutex(data);
-	data->first_time = p_get_time();
-	data->running = 0;
-	data->p_die = 0;
+	if (p_init_mutex(data) == false)
+	{
+		printf(ERROR_INIT_MUTEX);
+		return (false);
+	}
 	i = data->nbr_philo;
 	while (--i >= 0)
 	{
@@ -49,5 +50,34 @@ int	p_init_philosophers(t_data *data, int argc, char **argv)
 		data->philo[i].fork_right_id = (i + 1) % data->nbr_philo;
 		data->philo[i].data = data;
 	}
-	return (1);
+	return (true);
+}
+
+bool	p_init_data(t_data *data, int argc, char **argv)
+{
+	data->nbr_philo = ft_atoi(argv[1]);
+	data->time_die = ft_atoi(argv[2]);
+	data->time_eat = ft_atoi(argv[3]);
+	data->time_sleep = ft_atoi(argv[4]);
+	data->running = 0;
+	data->p_die = 0;
+	data->nbr_eat = -1;
+	if (data->nbr_philo < 2 || data->time_die < 0 || data->time_eat < 0
+		|| data->time_sleep < 0 || data->nbr_philo > 250)
+	{
+		printf(ERROR_INIT_VALUE);
+		return (false);
+	}
+	if (argc != ARG__MAX)
+	{
+		p_init_philosophers(data);
+		return (true);
+	}
+	data->nbr_eat = ft_atoi(argv[5]);
+	if (data->nbr_eat <= 0)
+	{
+		printf(ERROR_INIT_VALUE);
+		return (false);
+	}
+	return (true);
 }
